@@ -660,7 +660,7 @@ const SettingsPage: React.FC = () => {
             {activeCategory === 'system' ? (
               <SettingsSectionCard
                 title="配置备份"
-                description="导出当前已保存的 .env 备份，或从备份文件恢复配置。导入会覆盖备份中出现的键并立即重载。"
+                description="导出当前已保存的环境配置备份，或从备份文件恢复配置。导入会覆盖备份中出现的键并立即重载。"
               >
                 <div className="space-y-4">
                   {!isEnvBackupAllowed ? (
@@ -678,7 +678,7 @@ const SettingsPage: React.FC = () => {
                       isLoading={isExportingEnv}
                       loadingText="导出中..."
                     >
-                      导出 .env
+                      导出配置
                     </Button>
                     <Button
                       type="button"
@@ -688,7 +688,7 @@ const SettingsPage: React.FC = () => {
                       isLoading={isImportingEnv}
                       loadingText="导入中..."
                     >
-                      导入 .env
+                      导入配置
                     </Button>
                     <input
                       ref={envBackupImportRef}

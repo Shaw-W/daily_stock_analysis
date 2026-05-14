@@ -52,12 +52,7 @@ export type SentimentLabel =
   | '悲观'
   | '中性'
   | '乐观'
-  | '极度乐观'
-  | 'Very Bearish'
-  | 'Bearish'
-  | 'Neutral'
-  | 'Bullish'
-  | 'Very Bullish';
+  | '极度乐观';
 
 /** Report summary section */
 export interface ReportSummary {
@@ -257,14 +252,7 @@ export interface ApiError {
 // ============ Helper Functions ============
 
 /** Get sentiment label by score */
-export const getSentimentLabel = (score: number, language: ReportLanguage = 'zh'): SentimentLabel => {
-  if (language === 'en') {
-    if (score <= 20) return 'Very Bearish';
-    if (score <= 40) return 'Bearish';
-    if (score <= 60) return 'Neutral';
-    if (score <= 80) return 'Bullish';
-    return 'Very Bullish';
-  }
+export const getSentimentLabel = (score: number, _language: ReportLanguage = 'zh'): SentimentLabel => {
   if (score <= 20) return '极度悲观';
   if (score <= 40) return '悲观';
   if (score <= 60) return '中性';

@@ -1020,7 +1020,7 @@ const ChatPage: React.FC = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="例如：分析 600519 / 茅台现在适合买入吗？ (Enter 发送, Shift+Enter 换行)"
+                  placeholder="例如：分析 600519 / 茅台现在适合买入吗？（Enter 发送，Shift+Enter 换行）"
                   disabled={loading}
                   rows={1}
                   className="input-surface input-focus-glow flex-1 min-h-[44px] max-h-[200px] rounded-xl border bg-transparent px-4 py-2.5 text-sm transition-all focus:outline-none resize-none disabled:cursor-not-allowed disabled:opacity-60"
