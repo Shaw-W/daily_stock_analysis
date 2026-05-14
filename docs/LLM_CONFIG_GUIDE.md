@@ -22,6 +22,7 @@
 3. **【高玩老手】** "我要做复杂的负载均衡、请求路由、甚至多异构平台高可用！" -> [指路【方式三：YAML 高级配置】](#方式三yaml高级配置适合老手自定义)
 4. **【本地模型】** "我想用 Ollama 本地模型！" -> [指路【示例 4：使用 Ollama 本地模型】](#示例-4使用-ollama-本地模型)
 5. **【视觉模型】** "我想用图片识别股票代码！" -> [指路【扩展功能：看图模型(Vision)配置】](#扩展功能看图模型vision配置)
+6. **【多智能体辩论】** "我想让 Agent 多空辩论并单独生成报告！" -> [指路【扩展功能：多智能体辩论模型配置】](#扩展功能多智能体辩论模型配置)
 
 ---
 
@@ -300,6 +301,38 @@ VISION_MODEL=openai/gpt-5.5
 # 默认的备用顺序：
 VISION_PROVIDER_PRIORITY=gemini,anthropic,openai
 ```
+
+---
+
+## 扩展功能：多智能体辩论模型配置
+
+多智能体辩论分析是独立能力，通过 `POST /api/v1/analysis/debate` 异步提交任务，不会改变普通 `/api/v1/analysis/analyze` 的默认行为。完整流程包含 6 个 Agent、1 个多方辩手、1 个空方辩手和 1 个裁判，通常约 **9 次 LLM 调用**，耗时和费用都高于普通分析。
+
+```env
+ENABLE_DEBATE_ANALYSIS=true
+DEBATE_AGENT_MODEL=
+DEBATE_JUDGE_MODEL=
+DEBATE_AGENT_PARALLELISM=3
+DEBATE_TASK_CONCURRENCY=1
+DEBATE_BATCH_MAX_SIZE=10
+DEBATE_TIMEOUT_SECONDS=300
+```
+
+模型继承规则：
+
+1. `DEBATE_AGENT_MODEL` 留空时继承 `LITELLM_MODEL`，用于 Phase 1 六 Agent 与 Phase 2/3 多空辩手。
+2. `DEBATE_JUDGE_MODEL` 留空时继承 `DEBATE_AGENT_MODEL`；如果辩论模型也为空，则继承 `LITELLM_MODEL`。
+3. fallback 继续复用全局 `LITELLM_FALLBACK_MODELS`，第一阶段不新增独立 fallback 配置。
+
+可选分工示例：
+
+```env
+# Agent/多空辩手用 DeepSeek，裁判用 GPT；实际可填写任意已配置 LiteLLM 模型或渠道别名
+DEBATE_AGENT_MODEL=deepseek/deepseek-chat
+DEBATE_JUDGE_MODEL=openai/gpt-4.1
+```
+
+并发说明：`DEBATE_AGENT_PARALLELISM` 控制单只股票内部 Phase 1 Agent 并行数，默认 3；`DEBATE_TASK_CONCURRENCY` 第一阶段固定为 1，多只股票批量提交后会排队串行辩论，避免 9 次 LLM 调用叠加触发限流。
 
 ---
 

@@ -6,6 +6,8 @@ import type {
   AnalyzeResponse,
   AnalyzeAsyncResponse,
   AnalysisReport,
+  DebateAsyncResponse,
+  DebateRequest,
   MarketReviewAccepted,
   MarketReviewRequest,
   TaskStatus,
@@ -87,6 +89,36 @@ export const analysisApi = {
     }
 
     return toCamelCase<AnalyzeAsyncResponse>(response.data);
+  },
+
+  /**
+   * Trigger independent multi-agent debate analysis in async mode.
+   */
+  debate: async (data: DebateRequest): Promise<DebateAsyncResponse> => {
+    const response = await apiClient.post<Record<string, unknown>>(
+      '/api/v1/analysis/debate',
+      {
+        stock_code: data.stockCode,
+        stock_codes: data.stockCodes,
+        force_refresh: data.forceRefresh || false,
+        ...(data.notify !== undefined && { notify: data.notify }),
+      },
+      {
+        validateStatus: (status) => status === 202 || status === 409,
+      }
+    );
+
+    if (response.status === 409) {
+      const errorData = toCamelCase<{
+        error: string;
+        message: string;
+        stockCode: string;
+        existingTaskId: string;
+      }>(response.data);
+      throw new DuplicateTaskError(errorData.stockCode, errorData.existingTaskId, errorData.message);
+    }
+
+    return toCamelCase<DebateAsyncResponse>(response.data);
   },
 
   /**

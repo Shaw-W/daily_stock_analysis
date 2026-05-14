@@ -1,0 +1,38 @@
+# ⚖️ {{ result.stock_name }}（{{ result.stock_code }}）多智能体辩论报告
+
+> 生成时间：{{ generated_at }}  
+> 最新价：{{ '%.2f'|format(result.stock_price) }} ｜ 涨跌幅：{{ '%.2f'|format(result.stock_change_rate) }}%
+
+## 📌 最终裁定
+
+- **方向**：{{ result.final_direction }}
+- **信心度**：{{ '%.0f'|format(result.confidence) }}/100
+- **多方胜率**：{{ '%.0f'|format(result.bull_win_rate) }}%
+- **空方胜率**：{{ '%.0f'|format(result.bear_win_rate) }}%
+
+## 🧑‍⚖️ 六 Agent 投票
+
+{% for report in agent_reports -%}
+- {{ report.agent_emoji }} **{{ report.agent_name }}**：{{ report.direction }} / {{ '%.0f'|format(report.confidence) }}/100{% if report.error %}（失败：{{ report.error }}）{% endif %}
+{% endfor %}
+
+## 🟢 多方论证
+
+{{ result.bull_argument }}
+
+## 🔴 空方论证
+
+{{ result.bear_argument }}
+
+## ⚖️ 裁判裁定全文
+
+{{ result.judge_verdict }}
+
+## 📊 数据覆盖与模型
+
+- 数据覆盖：`{{ result.data_coverage }}`
+- 模型使用：`{{ result.models_used }}`
+- LLM 调用次数：{{ result.total_llm_calls }}
+- 总耗时：{{ '%.1f'|format(result.total_time_seconds) }} 秒
+
+> 免责声明：以上分析基于 AI 多智能体博弈推演，仅供参考，不构成投资建议。投资有风险，决策需谨慎。

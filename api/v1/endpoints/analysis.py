@@ -42,6 +42,13 @@ from api.v1.schemas.analysis import (
     MarketReviewRequest,
     MarketReviewAccepted,
 )
+from api.v1.schemas.debate import (
+    DebateAnalyzeRequest,
+    DebateBatchTaskAcceptedItem,
+    DebateBatchTaskAcceptedResponse,
+    DebateDuplicateTaskItem,
+    DebateTaskAccepted,
+)
 from api.v1.schemas.common import ErrorResponse
 from api.v1.schemas.history import (
     AnalysisReport,
@@ -298,6 +305,111 @@ def trigger_analysis(
 
     # Async mode submits one task per stock.
     return _handle_async_analysis_batch(stock_codes, request)
+
+
+@router.post(
+    "/debate",
+    response_model=Union[DebateTaskAccepted, DebateBatchTaskAcceptedResponse],
+    status_code=202,
+    responses={
+        202: {"description": "辩论任务已接受"},
+        400: {"description": "请求参数错误", "model": ErrorResponse},
+        403: {"description": "多智能体辩论未启用", "model": ErrorResponse},
+        409: {"description": "股票正在辩论分析中", "model": DuplicateTaskErrorResponse},
+    },
+    summary="触发多智能体辩论分析",
+    description="独立提交多智能体辩论任务。第一阶段固定异步执行，普通分析接口行为不变。",
+)
+def trigger_debate_analysis(
+    request: DebateAnalyzeRequest,
+    config: Config = Depends(get_config_dep),
+) -> JSONResponse:
+    """Submit one or many debate tasks asynchronously."""
+    if not getattr(config, "enable_debate_analysis", True):
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "error": "debate_disabled",
+                "message": "多智能体辩论分析未启用，请在设置页开启 ENABLE_DEBATE_ANALYSIS。",
+            },
+        )
+
+    stock_codes = []
+    if request.stock_code:
+        stock_codes.append(request.stock_code)
+    if request.stock_codes:
+        stock_codes.extend(request.stock_codes)
+    if not stock_codes:
+        raise HTTPException(status_code=400, detail={"error": "validation_error", "message": "必须提供 stock_code 或 stock_codes 参数"})
+
+    resolved = [_resolve_and_normalize_input(c) for c in stock_codes]
+    seen = set()
+    unique_codes = []
+    for code in resolved:
+        norm = normalize_stock_code(code)
+        if code and norm not in seen:
+            seen.add(norm)
+            unique_codes.append(code)
+
+    max_batch = max(1, int(getattr(config, "debate_batch_max_size", 10) or 10))
+    if len(unique_codes) > max_batch:
+        raise HTTPException(
+            status_code=400,
+            detail={"error": "validation_error", "message": f"单次辩论请求最多支持 {max_batch} 只股票"},
+        )
+
+    task_queue = get_task_queue()
+    accepted_tasks, duplicate_errors = task_queue.submit_debate_tasks_batch(
+        unique_codes,
+        force_refresh=request.force_refresh,
+        notify=request.notify,
+    )
+    accepted = [
+        DebateBatchTaskAcceptedItem(
+            task_id=task.task_id,
+            stock_code=task.stock_code,
+            status="pending",
+            message=f"辩论任务已加入队列: {task.stock_code}",
+        )
+        for task in accepted_tasks
+    ]
+    duplicates = [
+        DebateDuplicateTaskItem(
+            stock_code=dup.stock_code,
+            existing_task_id=dup.existing_task_id,
+            message=str(dup),
+        )
+        for dup in duplicate_errors
+    ]
+
+    if len(unique_codes) == 1 and duplicates:
+        dup = duplicates[0]
+        return JSONResponse(
+            status_code=409,
+            content=DuplicateTaskErrorResponse(
+                error="duplicate_task",
+                message=dup.message,
+                stock_code=dup.stock_code,
+                existing_task_id=dup.existing_task_id,
+            ).model_dump(),
+        )
+    if len(unique_codes) == 1 and accepted:
+        return JSONResponse(
+            status_code=202,
+            content=DebateTaskAccepted(
+                task_id=accepted[0].task_id,
+                status="pending",
+                message=accepted[0].message,
+            ).model_dump(),
+        )
+    return JSONResponse(
+        status_code=202,
+        content=DebateBatchTaskAcceptedResponse(
+            accepted=accepted,
+            duplicates=duplicates,
+            message=f"已提交 {len(accepted)} 个辩论任务，{len(duplicates)} 个重复跳过",
+        ).model_dump(),
+    )
 
 
 def _handle_async_analysis_batch(

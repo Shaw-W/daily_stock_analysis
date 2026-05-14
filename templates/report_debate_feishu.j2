@@ -1,0 +1,29 @@
+# ⚖️ {{ result.stock_name }}（{{ result.stock_code }}）多智能体辩论
+
+**最终裁定**：{{ result.final_direction }}  
+**信心度**：{{ '%.0f'|format(result.confidence) }}/100  
+**多方 / 空方胜率**：{{ '%.0f'|format(result.bull_win_rate) }}% / {{ '%.0f'|format(result.bear_win_rate) }}%
+
+---
+
+## 六 Agent 观点
+{% for report in agent_reports -%}
+- {{ report.agent_emoji }} **{{ report.agent_name }}**：{{ report.direction }} / {{ '%.0f'|format(report.confidence) }}/100{% if report.error %}（失败：{{ report.error }}）{% endif %}
+{% endfor %}
+
+## 🟢 多方核心
+{{ result.bull_argument }}
+
+## 🔴 空方核心
+{{ result.bear_argument }}
+
+## ⚖️ 裁判结论
+{{ result.judge_verdict }}
+
+---
+
+- 模型：Agent={{ result.models_used.get('agent_model') }}；Judge={{ result.models_used.get('judge_model') }}
+- 耗时：{{ '%.1f'|format(result.total_time_seconds) }} 秒
+- LLM 调用：{{ result.total_llm_calls }} 次
+
+> AI 生成内容仅供参考，不构成投资建议。

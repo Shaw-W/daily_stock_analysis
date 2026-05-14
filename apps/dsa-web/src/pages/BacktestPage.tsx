@@ -520,29 +520,29 @@ const BacktestPage: React.FC = () => {
                         key={row.analysisHistoryId}
                         className="backtest-table-row"
                       >
-                        <td className="backtest-table-cell backtest-table-code">
+                        <td className="backtest-table-cell backtest-table-cell-nowrap backtest-table-code">
                           <div className="flex flex-col">
                             <span>{row.code}</span>
                             <span className="text-xs text-muted-text">{row.stockName || '--'}</span>
                           </div>
                         </td>
-                        <td className="backtest-table-cell text-secondary-text">{row.analysisDate || '--'}</td>
-                        <td className="backtest-table-cell max-w-[220px] text-foreground">
+                        <td className="backtest-table-cell backtest-table-cell-nowrap text-secondary-text">{row.analysisDate || '--'}</td>
+                        <td className="backtest-table-cell backtest-table-prediction text-foreground">
                           {(row.trendPrediction || row.operationAdvice) ? (
                             <Tooltip
                               content={[row.trendPrediction, row.operationAdvice].filter(Boolean).join(' / ')}
                               focusable
                             >
-                              <div className="flex flex-col gap-1">
-                                <span className="block truncate">{row.trendPrediction || '--'}</span>
-                                <span className="block truncate text-xs text-secondary-text">{row.operationAdvice || '--'}</span>
+                              <div className="flex min-w-0 flex-col gap-1">
+                                <span className="backtest-line-clamp">{row.trendPrediction || '--'}</span>
+                                <span className="backtest-line-clamp text-xs text-secondary-text">{row.operationAdvice || '--'}</span>
                               </div>
                             </Tooltip>
                           ) : (
                             '--'
                           )}
                         </td>
-                        <td className="backtest-table-cell">
+                        <td className="backtest-table-cell backtest-table-cell-nowrap">
                           <div className="flex items-center gap-2">
                             {actualMovementBadge(row.actualMovement)}
                             <span className={
@@ -554,14 +554,14 @@ const BacktestPage: React.FC = () => {
                             </span>
                           </div>
                         </td>
-                        <td className="backtest-table-cell">
+                        <td className="backtest-table-cell backtest-table-cell-nowrap">
                           <span className="flex items-center gap-2">
                             {boolIcon(row.directionCorrect)}
                             <span className="text-muted-text">{row.directionExpected || ''}</span>
                           </span>
                         </td>
-                        <td className="backtest-table-cell">{outcomeBadge(row.outcome)}</td>
-                        <td className="backtest-table-cell">{statusBadge(row.evalStatus)}</td>
+                        <td className="backtest-table-cell backtest-table-cell-nowrap">{outcomeBadge(row.outcome)}</td>
+                        <td className="backtest-table-cell backtest-table-cell-nowrap">{statusBadge(row.evalStatus)}</td>
                       </tr>
                     ))}
                   </tbody>

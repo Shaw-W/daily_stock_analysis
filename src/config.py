@@ -589,6 +589,34 @@ def get_effective_agent_models_to_try(config: "Config") -> List[str]:
     return ordered_models
 
 
+def get_effective_debate_agent_model(config: "Config") -> str:
+    """Return debate agent/debater model, inheriting primary LLM when unset."""
+    configured_router_models = set(
+        get_configured_llm_models(getattr(config, "llm_model_list", []) or [])
+    )
+    configured_debate_model = normalize_agent_litellm_model(
+        getattr(config, "debate_agent_model", ""),
+        configured_models=configured_router_models,
+    )
+    if configured_debate_model:
+        return configured_debate_model
+    return (getattr(config, "litellm_model", "") or "").strip()
+
+
+def get_effective_debate_judge_model(config: "Config") -> str:
+    """Return debate judge model, inheriting debate-agent model when unset."""
+    configured_router_models = set(
+        get_configured_llm_models(getattr(config, "llm_model_list", []) or [])
+    )
+    configured_judge_model = normalize_agent_litellm_model(
+        getattr(config, "debate_judge_model", ""),
+        configured_models=configured_router_models,
+    )
+    if configured_judge_model:
+        return configured_judge_model
+    return get_effective_debate_agent_model(config)
+
+
 def setup_env(override: bool = False):
     """
     Initialize environment variables from .env file.
@@ -729,6 +757,15 @@ class Config:
     agent_event_monitor_enabled: bool = False  # Enable periodic event-driven alert checks in schedule mode
     agent_event_monitor_interval_minutes: int = 5  # Polling interval for event monitor background checks
     agent_event_alert_rules_json: str = ""  # JSON array of serialized EventMonitor rules
+
+    # === 多智能体辩论分析配置 ===
+    enable_debate_analysis: bool = True
+    debate_agent_model: str = ""  # Optional debate-agent/debater model; empty inherits LITELLM_MODEL
+    debate_judge_model: str = ""  # Optional judge model; empty inherits debate_agent_model
+    debate_agent_parallelism: int = 3
+    debate_task_concurrency: int = 1
+    debate_batch_max_size: int = 10
+    debate_timeout_seconds: int = 300
 
     # === 通知配置（可同时配置多个，全部推送）===
     
@@ -1491,6 +1528,46 @@ class Config:
                 minimum=1,
             ),
             agent_event_alert_rules_json=os.getenv('AGENT_EVENT_ALERT_RULES_JSON', ''),
+            enable_debate_analysis=parse_env_bool(
+                os.getenv('ENABLE_DEBATE_ANALYSIS'),
+                default=True,
+            ),
+            debate_agent_model=normalize_agent_litellm_model(
+                os.getenv('DEBATE_AGENT_MODEL', ''),
+                configured_models=set(get_configured_llm_models(llm_model_list)),
+            ),
+            debate_judge_model=normalize_agent_litellm_model(
+                os.getenv('DEBATE_JUDGE_MODEL', ''),
+                configured_models=set(get_configured_llm_models(llm_model_list)),
+            ),
+            debate_agent_parallelism=parse_env_int(
+                os.getenv('DEBATE_AGENT_PARALLELISM'),
+                3,
+                field_name='DEBATE_AGENT_PARALLELISM',
+                minimum=1,
+                maximum=6,
+            ),
+            debate_task_concurrency=parse_env_int(
+                os.getenv('DEBATE_TASK_CONCURRENCY'),
+                1,
+                field_name='DEBATE_TASK_CONCURRENCY',
+                minimum=1,
+                maximum=1,
+            ),
+            debate_batch_max_size=parse_env_int(
+                os.getenv('DEBATE_BATCH_MAX_SIZE'),
+                10,
+                field_name='DEBATE_BATCH_MAX_SIZE',
+                minimum=1,
+                maximum=50,
+            ),
+            debate_timeout_seconds=parse_env_int(
+                os.getenv('DEBATE_TIMEOUT_SECONDS'),
+                300,
+                field_name='DEBATE_TIMEOUT_SECONDS',
+                minimum=30,
+                maximum=1800,
+            ),
             wechat_webhook_url=os.getenv('WECHAT_WEBHOOK_URL'),
             feishu_webhook_url=os.getenv('FEISHU_WEBHOOK_URL'),
             feishu_webhook_secret=os.getenv('FEISHU_WEBHOOK_SECRET'),

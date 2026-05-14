@@ -156,7 +156,9 @@ class AnalysisTaskQueue:
         # 核心数据结构
         self._tasks: Dict[str, TaskInfo] = {}           # task_id -> TaskInfo
         self._analyzing_stocks: Dict[str, str] = {}     # dedupe_key -> task_id
+        self._debating_stocks: Dict[str, str] = {}      # debate:{dedupe_key} -> task_id
         self._futures: Dict[str, Future] = {}           # task_id -> Future
+        self._debate_executor: Optional[ThreadPoolExecutor] = None  # 独立辩论队列，第一阶段并发 1
         
         # SSE 订阅者列表（asyncio.Queue 实例）
         self._subscribers: List['AsyncQueue'] = []
@@ -185,13 +187,23 @@ class AnalysisTaskQueue:
         return self._executor
 
     @property
+    def debate_executor(self) -> ThreadPoolExecutor:
+        """Lazy single-worker executor for full debate tasks."""
+        if self._debate_executor is None:
+            self._debate_executor = ThreadPoolExecutor(
+                max_workers=1,
+                thread_name_prefix="debate_task_",
+            )
+        return self._debate_executor
+
+    @property
     def max_workers(self) -> int:
         """Return current executor max worker setting."""
         return self._max_workers
 
     def _has_inflight_tasks_locked(self) -> bool:
         """Check whether queue has any pending/processing tasks."""
-        if self._analyzing_stocks:
+        if self._analyzing_stocks or self._debating_stocks:
             return True
         return any(
             task.status in (TaskStatus.PENDING, TaskStatus.PROCESSING)
@@ -410,6 +422,64 @@ class AnalysisTaskQueue:
 
         return accepted, duplicates
 
+    def submit_debate_tasks_batch(
+        self,
+        stock_codes: List[str],
+        *,
+        force_refresh: bool = False,
+        notify: bool = True,
+    ) -> Tuple[List[TaskInfo], List[DuplicateTaskError]]:
+        """Submit debate tasks to a dedicated single-worker queue."""
+        accepted: List[TaskInfo] = []
+        duplicates: List[DuplicateTaskError] = []
+        created_task_ids: List[str] = []
+        canonical_codes = [
+            normalized for normalized in (canonical_stock_code(code) for code in stock_codes)
+            if normalized
+        ]
+
+        with self._data_lock:
+            for stock_code in canonical_codes:
+                dedupe_key = _dedupe_stock_code_key(stock_code)
+                debate_key = f"debate:{dedupe_key}"
+                if debate_key in self._debating_stocks:
+                    existing_task_id = self._debating_stocks[debate_key]
+                    duplicates.append(DuplicateTaskError(stock_code, existing_task_id))
+                    continue
+
+                task_id = uuid.uuid4().hex
+                task_info = TaskInfo(
+                    task_id=task_id,
+                    stock_code=stock_code,
+                    status=TaskStatus.PENDING,
+                    message="辩论任务已加入队列",
+                    report_type="debate",
+                )
+                self._tasks[task_id] = task_info
+                self._debating_stocks[debate_key] = task_id
+
+                try:
+                    future = self.debate_executor.submit(
+                        self._execute_debate_task,
+                        task_id,
+                        stock_code,
+                        force_refresh,
+                        notify,
+                    )
+                except Exception:
+                    self._rollback_submitted_tasks_locked(created_task_ids + [task_id])
+                    raise
+
+                self._futures[task_id] = future
+                accepted.append(task_info)
+                created_task_ids.append(task_id)
+                logger.info("[TaskQueue] 辩论任务已提交: %s -> %s", stock_code, task_id)
+
+            for task_info in accepted:
+                self._broadcast_event("task_created", task_info.to_dict())
+
+        return accepted, duplicates
+
     def submit_background_task(
         self,
         run_task: Callable[[], Optional[Any]],
@@ -460,6 +530,9 @@ class AnalysisTaskQueue:
                 dedupe_key = _dedupe_stock_code_key(task.stock_code)
                 if self._analyzing_stocks.get(dedupe_key) == task_id:
                     del self._analyzing_stocks[dedupe_key]
+                debate_key = f"debate:{dedupe_key}"
+                if self._debating_stocks.get(debate_key) == task_id:
+                    del self._debating_stocks[debate_key]
     
     def get_task(self, task_id: str) -> Optional[TaskInfo]:
         """
@@ -666,6 +739,78 @@ class AnalysisTaskQueue:
             
             return None
 
+    def _execute_debate_task(
+        self,
+        task_id: str,
+        stock_code: str,
+        force_refresh: bool,
+        notify: bool = True,
+    ) -> Optional[Dict[str, Any]]:
+        """Execute a full debate task on the dedicated single-worker executor."""
+        with self._data_lock:
+            task = self._tasks.get(task_id)
+            if not task:
+                return None
+            task.status = TaskStatus.PROCESSING
+            task.started_at = datetime.now()
+            task.message = "正在准备辩论分析..."
+            task.progress = 10
+
+        self._broadcast_event("task_started", task.to_dict())
+
+        try:
+            from src.services.debate_analysis_service import DebateAnalysisService
+
+            service = DebateAnalysisService()
+
+            def _on_progress(progress: int, message: str) -> None:
+                self.update_task_progress(task_id, progress, message)
+
+            result = service.run_debate_analysis(
+                stock_code=stock_code,
+                query_id=task_id,
+                progress_callback=_on_progress,
+                notify=notify,
+                force_refresh=force_refresh,
+            )
+            if result is None:
+                raise RuntimeError(service.last_error or "辩论分析返回空结果")
+
+            with self._data_lock:
+                task = self._tasks.get(task_id)
+                if task:
+                    task.status = TaskStatus.COMPLETED
+                    task.progress = 100
+                    task.completed_at = datetime.now()
+                    task.result = result
+                    task.message = "辩论分析完成"
+                    task.stock_name = result.get("stock_name", task.stock_name)
+                    debate_key = f"debate:{_dedupe_stock_code_key(task.stock_code)}"
+                    if self._debating_stocks.get(debate_key) == task_id:
+                        del self._debating_stocks[debate_key]
+
+            self._broadcast_event("task_completed", task.to_dict())
+            logger.info("[TaskQueue] 辩论任务完成: %s (%s)", task_id, stock_code)
+            self._cleanup_old_tasks()
+            return result
+        except Exception as e:
+            error_msg = str(e)
+            logger.error("[TaskQueue] 辩论任务失败: %s (%s), 错误: %s", task_id, stock_code, error_msg)
+            with self._data_lock:
+                task = self._tasks.get(task_id)
+                if task:
+                    task.status = TaskStatus.FAILED
+                    task.completed_at = datetime.now()
+                    task.error = error_msg[:200]
+                    task.message = f"辩论失败: {error_msg[:80]}"
+                    debate_key = f"debate:{_dedupe_stock_code_key(task.stock_code)}"
+                    if self._debating_stocks.get(debate_key) == task_id:
+                        del self._debating_stocks[debate_key]
+            if task:
+                self._broadcast_event("task_failed", task.to_dict())
+            self._cleanup_old_tasks()
+            return None
+
     def _execute_background_task(
         self,
         task_id: str,
@@ -841,7 +986,10 @@ class AnalysisTaskQueue:
         if self._executor:
             self._executor.shutdown(wait=True)
             self._executor = None
-            logger.info("[TaskQueue] 线程池已关闭")
+        if self._debate_executor:
+            self._debate_executor.shutdown(wait=True)
+            self._debate_executor = None
+        logger.info("[TaskQueue] 线程池已关闭")
 
 
 # ========== 便捷函数 ==========

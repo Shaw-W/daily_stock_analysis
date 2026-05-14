@@ -4,6 +4,7 @@ export type SystemConfigCategory =
   | 'ai_model'
   | 'notification'
   | 'system'
+  | 'debate'
   | 'agent'
   | 'backtest'
   | 'uncategorized';

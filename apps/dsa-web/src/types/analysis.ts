@@ -17,6 +17,13 @@ export interface AnalysisRequest {
   notify?: boolean;
 }
 
+export interface DebateRequest {
+  stockCode?: string;
+  stockCodes?: string[];
+  forceRefresh?: boolean;
+  notify?: boolean;
+}
+
 export interface MarketReviewRequest {
   sendNotification?: boolean;
 }
@@ -105,6 +112,8 @@ export interface AnalysisReport {
   strategy?: ReportStrategy;
   details?: ReportDetails;
 }
+
+export type DebateAsyncResponse = TaskAccepted | BatchTaskAcceptedResponse;
 
 // ============ Analysis Result Types ============
 
@@ -252,7 +261,8 @@ export interface ApiError {
 // ============ Helper Functions ============
 
 /** Get sentiment label by score */
-export const getSentimentLabel = (score: number, _language: ReportLanguage = 'zh'): SentimentLabel => {
+export const getSentimentLabel = (score: number, language: ReportLanguage = 'zh'): SentimentLabel => {
+  void language;
   if (score <= 20) return '极度悲观';
   if (score <= 40) return '悲观';
   if (score <= 60) return '中性';

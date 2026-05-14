@@ -750,6 +750,19 @@ const SettingsPage: React.FC = () => {
                 />
               </SettingsSectionCard>
             ) : null}
+            {activeCategory === 'debate' ? (
+              <SettingsSectionCard
+                title="多智能体辩论说明"
+                description="辩论分析会调用六个 Agent、多空辩手和裁判，通常比普通分析更慢、消耗更多模型额度。"
+              >
+                <div className="space-y-2 text-xs leading-6 text-muted-text">
+                  <p>辩论模型用于 Phase 1~3：六个 Agent、多方辩手和空方辩手。</p>
+                  <p>裁判模型用于 Phase 4：综合多空论证并给出最终裁定。</p>
+                  <p>两个模型字段都可以留空；辩论模型留空时继承主模型，裁判模型留空时继承辩论模型。</p>
+                  <p>第一阶段完整辩论任务按队列串行执行，多只股票会排队，避免一次触发过多 LLM 调用。</p>
+                </div>
+              </SettingsSectionCard>
+            ) : null}
             {activeCategory === 'system' && passwordChangeable ? (
               <ChangePasswordCard />
             ) : null}
