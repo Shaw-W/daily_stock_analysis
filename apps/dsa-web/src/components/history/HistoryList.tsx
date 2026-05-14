@@ -18,6 +18,8 @@ interface HistoryListProps {
   onToggleItemSelection: (recordId: number) => void;
   onToggleSelectAll: () => void;
   onDeleteSelected: () => void;
+  /** 可选过滤器：仅显示分析类 ('analysis') 或辩论类 ('debate')，默认显示全部 */
+  filter?: 'all' | 'analysis' | 'debate';
   className?: string;
 }
 
@@ -38,6 +40,7 @@ export const HistoryList: React.FC<HistoryListProps> = ({
   onToggleItemSelection,
   onToggleSelectAll,
   onDeleteSelected,
+  filter,
   className = '',
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -45,8 +48,15 @@ export const HistoryList: React.FC<HistoryListProps> = ({
   const selectAllRef = useRef<HTMLInputElement>(null);
   const selectAllId = useId();
 
-  const selectedCount = items.filter((item) => selectedIds.has(item.id)).length;
-  const allVisibleSelected = items.length > 0 && selectedCount === items.length;
+  // Apply filter: 'analysis' excludes debate, 'debate' shows only debate, 'all'/undefined shows all
+  const visibleItems = filter === 'debate'
+    ? items.filter((h) => h.reportType === 'debate')
+    : filter === 'analysis'
+      ? items.filter((h) => h.reportType !== 'debate')
+      : items;
+
+  const selectedCount = visibleItems.filter((item) => selectedIds.has(item.id)).length;
+  const allVisibleSelected = visibleItems.length > 0 && selectedCount === visibleItems.length;
   const someVisibleSelected = selectedCount > 0 && !allVisibleSelected;
 
   // 使用 IntersectionObserver 检测滚动到底部
@@ -111,7 +121,7 @@ export const HistoryList: React.FC<HistoryListProps> = ({
             }
           />
 
-          {items.length > 0 && (
+          {visibleItems.length > 0 && (
             <div className="flex items-center gap-2">
               <label
                 className="flex flex-1 cursor-pointer items-center gap-2 rounded-lg px-2 py-1"
@@ -149,9 +159,9 @@ export const HistoryList: React.FC<HistoryListProps> = ({
             compact
             title="加载历史记录中..."
           />
-        ) : items.length === 0 ? (
+        ) : visibleItems.length === 0 ? (
           <DashboardStateBlock
-            title="暂无历史分析记录"
+            title={filter === 'debate' ? '暂无辩论记录' : '暂无历史分析记录'}
             description="完成首次分析后，这里会保留最近结果。"
             icon={(
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,7 +171,7 @@ export const HistoryList: React.FC<HistoryListProps> = ({
           />
         ) : (
           <div className="space-y-2">
-            {items.map((item) => (
+            {visibleItems.map((item) => (
               <HistoryListItem
                 key={item.id}
                 item={item}
@@ -181,7 +191,7 @@ export const HistoryList: React.FC<HistoryListProps> = ({
               </div>
             )}
 
-            {!hasMore && items.length > 0 && (
+            {!hasMore && visibleItems.length > 0 && (
               <div className="text-center py-5">
                 <div className="h-px bg-subtle w-full mb-3" />
                 <span className="text-[10px] text-secondary-text uppercase tracking-[0.2em]">已到底部</span>

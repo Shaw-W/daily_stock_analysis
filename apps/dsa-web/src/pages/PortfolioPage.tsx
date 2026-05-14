@@ -25,7 +25,7 @@ import type {
 } from '../types/portfolio';
 
 // 投研风格调色盘：amber 主色 + 补色系
-const PIE_COLORS = ['#f59e0b', '#22c55e', '#3b82f6', '#a855f7', '#ec4899', '#14b8a6'];
+const PIE_COLORS = ['#10b981', '#22c55e', '#3b82f6', '#a855f7', '#ec4899', '#14b8a6'];
 const DEFAULT_PAGE_SIZE = 20;
 const FALLBACK_BROKERS: PortfolioImportBrokerItem[] = [
   { broker: 'huatai', aliases: [], displayName: '华泰' },

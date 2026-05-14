@@ -9,6 +9,8 @@ type BadgeVariant =
   | 'info'
   | 'history'
   | 'ai'
+  | 'data-positive'
+  | 'data-info'
   | 'market-up'
   | 'market-down';
 
@@ -22,27 +24,31 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  default: 'border-border/55 bg-elevated/75 text-secondary-text',
-  success: 'border-success/20 bg-success/10 text-success',
-  warning: 'border-warning/20 bg-warning/10 text-warning',
-  danger: 'border-danger/20 bg-danger/10 text-danger',
-  info: 'border-primary/25 bg-primary/10 text-primary',
-  history: 'border-purple/20 bg-purple/10 text-purple',
-  ai: 'border-[var(--accent-ai-border)] bg-[var(--accent-ai-soft)] text-[var(--accent-ai)]',
-  'market-up': 'border-[var(--market-up)]/20 bg-[var(--market-up)]/10 text-[var(--market-up)]',
-  'market-down': 'border-[var(--market-down)]/20 bg-[var(--market-down)]/10 text-[var(--market-down)]',
+  default:        'border-border/55 bg-elevated/75 text-secondary-text',
+  success:        'border-[var(--data-positive)]/20 bg-[var(--data-positive)]/10 text-[var(--data-positive)]',
+  warning:        'border-warning/20 bg-warning/10 text-warning',
+  danger:         'border-danger/20 bg-danger/10 text-danger',
+  info:           'border-border/50 bg-muted/50 text-foreground',
+  history:        'border-purple/20 bg-purple/10 text-purple',
+  ai:             'border-[var(--accent-ai-border)] bg-[var(--accent-ai-soft)] text-[var(--accent-ai)]',
+  'data-positive': 'border-[var(--data-positive)]/20 bg-[var(--data-positive)]/10 text-[var(--data-positive)]',
+  'data-info':    'border-[var(--data-info)]/20 bg-[var(--data-info)]/10 text-[var(--data-info)]',
+  'market-up':    'border-[var(--market-up)]/20 bg-[var(--market-up)]/10 text-[var(--market-up)]',
+  'market-down':  'border-[var(--market-down)]/20 bg-[var(--market-down)]/10 text-[var(--market-down)]',
 };
 
 const glowStyles: Record<BadgeVariant, string> = {
-  default: '',
-  success: 'shadow-success/20',
-  warning: 'shadow-warning/20',
-  danger: 'shadow-danger/20',
-  info: 'shadow-primary/20',
-  history: 'shadow-purple/20',
-  ai: 'shadow-[var(--accent-ai-glow)]',
-  'market-up': '',
-  'market-down': '',
+  default:        '',
+  success:        '',
+  warning:        '',
+  danger:         '',
+  info:           '',
+  history:        '',
+  ai:             'shadow-[var(--accent-ai-glow)]',
+  'data-positive': '',
+  'data-info':    '',
+  'market-up':    '',
+  'market-down':  '',
 };
 
 /**

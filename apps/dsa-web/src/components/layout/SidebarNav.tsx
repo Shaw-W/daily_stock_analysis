@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   LogOut,
   MessageSquareQuote,
+  Search,
   Settings2,
   TrendingUp,
 } from 'lucide-react';
@@ -34,8 +35,9 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { key: 'home', label: '工作台', desc: '分析与报告', to: '/', icon: LayoutDashboard, exact: true },
-  { key: 'debate', label: '多智辩论', desc: 'Multi-Agent', to: '/debate', icon: Gavel },
+  { key: 'dashboard', label: '数据看板', desc: '运行总览', to: '/', icon: LayoutDashboard, exact: true },
+  { key: 'analyze',   label: '股票分析', desc: '搜索 / 报告', to: '/analyze', icon: Search },
+  { key: 'debate',    label: '多智辩论', desc: 'Multi-Agent', to: '/debate', icon: Gavel },
   { key: 'chat', label: 'Agent 问股', desc: 'AI 对话', to: '/chat', icon: MessageSquareQuote, badge: 'completion' },
   { key: 'portfolio', label: '持仓', desc: '账户与交易', to: '/portfolio', icon: BriefcaseBusiness },
   { key: 'backtest', label: '回测', desc: '策略验证', to: '/backtest', icon: BarChart3 },
@@ -59,12 +61,11 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
       >
         <div
           className={cn(
-            'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg',
-            'border border-[var(--accent-ai-border)] bg-[var(--accent-ai-soft)]',
-            'shadow-[0_0_12px_var(--accent-ai-glow)]'
+            'flex h-8 w-8 shrink-0 items-center justify-center rounded-md',
+            'border border-border/70 bg-card text-foreground'
           )}
         >
-          <TrendingUp className="h-4 w-4 text-[var(--accent-ai)]" />
+          <TrendingUp className="h-4 w-4" />
         </div>
         {!collapsed ? (
           <div className="min-w-0 overflow-hidden">
@@ -93,7 +94,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
                 'h-[2.625rem]',
                 collapsed ? 'justify-center px-2' : '',
                 isActive
-                  ? 'bg-[var(--nav-active-bg)] text-[var(--accent-ai)] font-medium'
+                  ? 'bg-[var(--nav-active-bg)] text-foreground font-medium'
                   : 'text-muted-foreground hover:bg-[var(--nav-hover-bg)] hover:text-foreground'
               )
             }
@@ -106,7 +107,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
                     layoutId="activeIndicator"
                     className={cn(
                       'absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full',
-                      'bg-[var(--accent-ai)] shadow-[0_0_8px_var(--accent-ai-glow)]'
+                      'bg-foreground'
                     )}
                     initial={{ opacity: 0, scaleY: 0.6 }}
                     animate={{ opacity: 1, scaleY: 1 }}
@@ -114,12 +115,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
                   />
                 )}
 
-                <Icon
-                  className={cn(
-                    'h-4 w-4 shrink-0',
-                    isActive ? 'text-[var(--accent-ai)]' : 'text-current'
-                  )}
-                />
+                <Icon className="h-4 w-4 shrink-0 text-current" />
 
                 {!collapsed ? (
                   <div className="min-w-0 flex-1">

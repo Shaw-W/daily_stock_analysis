@@ -1,7 +1,8 @@
 import type React from 'react';
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import HomePage from './pages/HomePage';
+import DashboardPage from './pages/DashboardPage';
+import AnalyzePage from './pages/AnalyzePage';
 import BacktestPage from './pages/BacktestPage';
 import DebateAnalysisPage from './pages/DebateAnalysisPage';
 import SettingsPage from './pages/SettingsPage';
@@ -25,7 +26,7 @@ const AppContent: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-base">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-cyan/20 border-t-cyan" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-foreground" />
       </div>
     );
   }
@@ -62,12 +63,13 @@ const AppContent: React.FC = () => {
   return (
     <Routes>
       <Route element={<Shell />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/debate" element={<DebateAnalysisPage />} />
-        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/"        element={<DashboardPage />} />
+        <Route path="/analyze" element={<AnalyzePage />} />
+        <Route path="/debate"  element={<DebateAnalysisPage />} />
+        <Route path="/chat"    element={<ChatPage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/backtest" element={<BacktestPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/backtest"  element={<BacktestPage />} />
+        <Route path="/settings"  element={<SettingsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
       <Route path="/login" element={<LoginPage />} />
