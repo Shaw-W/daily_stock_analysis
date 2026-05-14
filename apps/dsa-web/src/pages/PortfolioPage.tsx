@@ -24,7 +24,8 @@ import type {
   PortfolioTradeListItem,
 } from '../types/portfolio';
 
-const PIE_COLORS = ['#00d4ff', '#00ff88', '#ffaa00', '#ff7a45', '#7f8cff', '#ff4466'];
+// 投研风格调色盘：amber 主色 + 补色系
+const PIE_COLORS = ['#f59e0b', '#22c55e', '#3b82f6', '#a855f7', '#ec4899', '#14b8a6'];
 const DEFAULT_PAGE_SIZE = 20;
 const FALLBACK_BROKERS: PortfolioImportBrokerItem[] = [
   { broker: 'huatai', aliases: [], displayName: '华泰' },
@@ -185,7 +186,7 @@ function getCsvCommitVariant(result: PortfolioImportCommitResponse, isDryRun: bo
 const PortfolioPage: React.FC = () => {
   // Set page title
   useEffect(() => {
-    document.title = '持仓分析 - DSA';
+    document.title = '持仓管理 - AI 投研工作台';
   }, []);
 
   const [accounts, setAccounts] = useState<PortfolioAccountItem[]>([]);

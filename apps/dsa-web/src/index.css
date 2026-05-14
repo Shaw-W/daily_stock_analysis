@@ -23,30 +23,30 @@
 
   /* HSL tokens used by Tailwind-based components */
 
-  --background: 216 33% 97%;
-  --foreground: 228 35% 12%;
+  --background: 0 0% 98%;
+  --foreground: 240 10% 4%;
   --card: 0 0% 100%;
-  --card-foreground: 228 35% 12%;
+  --card-foreground: 240 10% 4%;
   --popover: 0 0% 100%;
-  --popover-foreground: 228 35% 12%;
-  --primary: 193 100% 43%;
-  --primary-foreground: 216 33% 97%;
-  --secondary: 214 32% 91%;
-  --secondary-foreground: 228 35% 16%;
-  --muted: 214 30% 94%;
-  --muted-foreground: 224 12% 42%;
-  --accent: 214 32% 93%;
-  --accent-foreground: 228 35% 16%;
-  --destructive: 349 82% 56%;
-  --destructive-foreground: 210 33% 98%;
-  --border: 217 28% 84%;
-  --input: 217 28% 84%;
-  --ring: 193 100% 43%;
+  --popover-foreground: 240 10% 4%;
+  --primary: 38 92% 45%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 5% 92%;
+  --secondary-foreground: 240 10% 12%;
+  --muted: 240 5% 94%;
+  --muted-foreground: 240 5% 42%;
+  --accent: 38 60% 93%;
+  --accent-foreground: 240 10% 12%;
+  --destructive: 0 75% 50%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 6% 88%;
+  --input: 240 6% 88%;
+  --ring: 38 92% 45%;
   --radius: 1rem;
   --elevated: 0 0% 100%;
-  --hover: 214 29% 90%;
-  --secondary-text: 224 18% 28%;
-  --muted-text: 224 12% 35%;
+  --hover: 240 5% 90%;
+  --secondary-text: 240 8% 28%;
+  --muted-text: 240 5% 42%;
 
   --color-cyan: hsl(var(--primary));
   --color-cyan-dim: hsl(var(--primary) / 0.8);
@@ -133,7 +133,7 @@
   --nav-brand-shadow: hsl(var(--primary) / 0.2);
 
   /* Shell Sidebar Custom */
-  --shell-sidebar-border: hsl(193 100% 43% / 0.35);
+  --shell-sidebar-border: hsl(38 92% 45% / 0.3);
 
   /* Home page related (using HSL format) */
   --home-loading-ring-track: hsl(var(--primary) / 0.2);
@@ -197,7 +197,7 @@
   --home-rail-bg: linear-gradient(180deg, hsl(0 0% 100% / 0.98), hsl(214 36% 97% / 0.98));
   --home-rail-shadow: 0 14px 30px hsl(220 22% 34% / 0.09), 0 4px 10px hsl(220 18% 28% / 0.05);
   --home-history-glow: hsl(193 100% 43% / 0.14);
-  --autocomplete-hover-bg: #04d1f6;
+  --autocomplete-hover-bg: hsl(38 92% 45%);
 
   /* Shadows (using HSL format) */
   --shadow-soft-card: 0 12px 24px hsl(220 20% 34% / 0.09), 0 3px 8px hsl(220 16% 28% / 0.05);
@@ -297,271 +297,329 @@
   --login-input-toggle-active-bg: hsl(var(--primary) / 0.14);
   --login-input-toggle-active-border: hsl(var(--primary) / 0.34);
   --login-input-toggle-active-text: hsl(205 88% 28%);
-  --login-grid-line: hsl(214 20% 55% / 0.08);
+  --login-grid-line: hsl(240 5% 55% / 0.07);
   --login-grid-mask: radial-gradient(ellipse 80% 50% at 50% 50%, #000 70%, transparent 100%);
+
+  /* ── 投研专属 token (Light) ── */
+  --accent-ai: hsl(38 92% 45%);
+  --accent-ai-soft: hsl(38 92% 45% / 0.1);
+  --accent-ai-border: hsl(38 92% 45% / 0.25);
+  --accent-ai-glow: hsl(38 92% 45% / 0.14);
+  --market-up: hsl(0 88% 52%);
+  --market-down: hsl(142 60% 38%);
+  --market-flat: hsl(240 5% 55%);
+  --metric-card-bg: hsl(0 0% 100%);
+  --metric-card-border: hsl(240 6% 88%);
+  --metric-card-radius: 16px;
+  --table-row-hover: hsl(240 5% 96%);
+  --table-row-selected: hsl(38 92% 45% / 0.06);
+  --table-border: hsl(240 6% 88%);
+  --status-online: hsl(142 60% 38%);
+  --status-warning: hsl(38 92% 45%);
+  --status-error: hsl(0 75% 50%);
+  --status-offline: hsl(240 5% 60%);
 }
 
 .dark {
-  --background: 228 35% 7%;
-  --foreground: 210 33% 98%;
-  --card: 230 24% 10%;
-  --card-foreground: 210 33% 98%;
-  --popover: 230 24% 10%;
-  --popover-foreground: 210 33% 98%;
-  --primary: 190 100% 50%;
-  --primary-foreground: 228 35% 8%;
-  --secondary: 231 19% 15%;
-  --secondary-foreground: 210 33% 94%;
-  --muted: 230 18% 14%;
-  --muted-foreground: 228 13% 66%;
-  --accent: 231 18% 16%;
-  --accent-foreground: 210 33% 98%;
-  --destructive: 349 100% 63%;
-  --destructive-foreground: 210 33% 98%;
-  --border: 226 19% 20%;
-  --input: 226 19% 20%;
-  --ring: 190 100% 50%;
-  --elevated: 230 22% 12%;
-  --hover: 231 20% 16%;
-  --secondary-text: 228 16% 72%;
-  --muted-text: 228 10% 48%;
+  /* ── Core Surface ── */
+  --background: 240 6% 4%;        /* #0a0a0c 近黑 */
+  --foreground: 0 0% 96%;          /* #f5f5f5 */
+  --card: 240 5% 7%;               /* #111113 */
+  --card-foreground: 0 0% 96%;
+  --popover: 240 4% 9%;            /* #17171a */
+  --popover-foreground: 0 0% 96%;
 
+  /* ── Primary: Amber (AI 强调色) ── */
+  --primary: 38 92% 50%;           /* #f59e0b */
+  --primary-foreground: 240 10% 4%;
+
+  /* ── Secondary / Muted ── */
+  --secondary: 240 4% 12%;         /* #1d1d20 */
+  --secondary-foreground: 0 0% 88%;
+  --muted: 240 4% 11%;             /* #1a1a1d */
+  --muted-foreground: 240 5% 65%;  /* #a1a1aa */
+  --accent: 38 60% 12%;            /* amber tinted surface */
+  --accent-foreground: 38 92% 60%;
+
+  /* ── Destructive ── */
+  --destructive: 0 75% 55%;
+  --destructive-foreground: 0 0% 98%;
+
+  /* ── Border / Input ── */
+  --border: 240 4% 16%;            /* #27272a */
+  --input: 240 4% 16%;
+  --ring: 38 92% 50%;              /* amber focus ring */
+
+  /* ── Elevation ── */
+  --elevated: 240 4% 9%;           /* #18181b */
+  --hover: 240 4% 13%;             /* #212124 */
+  --secondary-text: 240 8% 70%;   /* #b0b0ba */
+  --muted-text: 240 5% 48%;        /* #78787f */
+
+  /* ── Legacy color aliases (kept for compatibility) ── */
   --color-cyan: hsl(var(--primary));
   --color-cyan-dim: hsl(var(--primary) / 0.8);
-  --color-cyan-glow: hsl(var(--primary) / 0.4);
+  --color-cyan-glow: hsl(var(--primary) / 0.35);
   --color-purple: 247 84% 72%;
   --color-purple-dim: 247 84% 62%;
-  --color-purple-glow: hsl(247 84% 72% / 0.3);
-  --color-success: 152 69% 40%;
-  --color-warning: 37 92% 50%;
-  --color-danger: 0 90% 55%;
-  --color-danger-alert-text: 349 100% 75%; /* Bright/light pink for dark mode */
-  --color-danger-alert-border: 349 100% 63%;
-  --color-danger-alert-bg: 349 100% 63%;
-  --autocomplete-hover-bg: #2dcae6;
-  /* Tailwind-compatible accent colors (Dark theme) */
-  --color-cyan-400: 188 78% 41%;
-  --color-emerald-400: 152 69% 40%;
-  --color-red-400: 0 90% 55%;
-  --color-amber-400: 37 92% 50%;
-  /* Tailwind aliases (for hsl(var(--success))) */
+  --color-purple-glow: hsl(247 84% 72% / 0.25);
+  --color-success: 142 70% 45%;
+  --color-warning: 38 92% 50%;
+  --color-danger: 0 75% 55%;
+  --color-danger-alert-text: 0 90% 75%;
+  --color-danger-alert-border: 0 75% 55%;
+  --color-danger-alert-bg: 0 75% 55%;
+  --autocomplete-hover-bg: hsl(38 92% 50%);
+  --color-cyan-400: 38 92% 50%;
+  --color-emerald-400: 142 70% 45%;
+  --color-red-400: 0 75% 55%;
+  --color-amber-400: 38 92% 50%;
   --success: var(--color-success);
   --warning: var(--color-warning);
   --danger: var(--color-danger);
 
-  /* Sentiment indicator colors (Dark theme) - Adjustable via CSS */
+  /* ── Sentiment ── */
   --sentiment-greed: var(--color-cyan);
   --sentiment-neutral: var(--color-purple);
   --sentiment-fear: var(--color-danger);
-
-  /* Sentiment indicator glow effect (Dark theme) - Stronger glow */
   --glow-spread: 12px;
-  --glow-intensity: 0.3;
+  --glow-intensity: 0.28;
   --sentiment-greed-glow: hsl(var(--sentiment-greed) / var(--glow-intensity));
   --sentiment-neutral-glow: hsl(var(--sentiment-neutral) / var(--glow-intensity));
   --sentiment-fear-glow: hsl(var(--sentiment-fear) / var(--glow-intensity));
 
+  /* ── Background helpers ── */
   --bg-base: hsl(var(--background));
   --bg-card: hsl(var(--card));
   --bg-elevated: hsl(var(--elevated));
   --bg-hover: hsl(var(--hover));
-
-  /* Dark theme design token color sources */
   --bg-subtle-raw: var(--foreground);
   --border-dim-raw: var(--foreground);
   --border-subtle-raw: var(--foreground);
-
-  /* Dark theme design tokens (Ready to use) */
-  --bg-subtle: hsl(var(--bg-subtle-raw) / 0.05);
+  --bg-subtle: hsl(var(--bg-subtle-raw) / 0.04);
   --border-dim: hsl(var(--border-dim-raw) / 0.06);
-  --border-subtle: hsl(var(--border-subtle-raw) / 0.08);
-  --border-subtle-hover: hsl(var(--border-subtle-raw) / 0.15);
+  --border-subtle: hsl(var(--border-subtle-raw) / 0.07);
+  --border-subtle-hover: hsl(var(--border-subtle-raw) / 0.12);
   --border-default: var(--border-dim);
-  --border-hover: hsl(var(--primary) / 0.34);
-  --border-selected: hsl(var(--primary) / 0.46);
+  --border-hover: hsl(var(--primary) / 0.36);
+  --border-selected: hsl(var(--primary) / 0.5);
 
-  /* Dark theme surface variants */
+  /* ── Surface variants ── */
   --surface-1: hsl(var(--card));
   --surface-2: hsl(var(--elevated));
   --surface-3: hsl(var(--hover));
+  --overlay-hover: hsl(var(--foreground) / 0.07);
+  --overlay-selected: hsl(var(--primary) / 0.12);
 
-  --overlay-hover: hsl(var(--foreground) / 0.08);
-  --overlay-selected: hsl(var(--primary) / 0.15);
-
-  /* Compatibility preservation */
-  --border-accent: hsl(var(--primary) / 0.8);
-  --border-purple: hsl(247 84% 72% / 0.28);
+  /* ── Compatibility ── */
+  --border-accent: hsl(var(--primary) / 0.7);
+  --border-purple: hsl(247 84% 72% / 0.24);
   --border-cyan: hsl(var(--primary));
   --text-primary: hsl(var(--foreground));
   --text-secondary-text: hsl(var(--secondary-text));
   --text-muted-text: hsl(var(--muted-text));
 
-  /* Navigation related (Dark theme) */
-  --nav-active-bg: hsl(var(--primary) / 0.11);
-  --nav-active-border: hsl(var(--primary) / 0.3);
-  --nav-active-shadow: hsl(var(--primary) / 0.05);
+  /* ── Shell sidebar ── */
+  --shell-sidebar-border: hsl(38 92% 50% / 0.2);
+
+  /* ── Navigation (Dark) ── */
+  --nav-active-bg: hsl(var(--primary) / 0.1);
+  --nav-active-border: hsl(var(--primary) / 0.28);
+  --nav-active-shadow: hsl(var(--primary) / 0.04);
   --nav-hover-bg: hsl(var(--primary) / 0.06);
   --nav-icon-active: hsl(var(--primary));
   --nav-item-height: 2.75rem;
   --nav-item-padding-x: 1rem;
   --nav-indicator-width: 0.25rem;
   --nav-indicator-bg: hsl(var(--primary));
-  --nav-indicator-shadow: hsl(var(--primary) / 0.8);
+  --nav-indicator-shadow: hsl(var(--primary) / 0.7);
   --nav-badge-bg: hsl(var(--primary));
-  --nav-brand-shadow: hsl(var(--primary) / 0.24);
+  --nav-brand-shadow: hsl(var(--primary) / 0.2);
 
-  /* Home page related (Dark theme) */
-  --home-loading-ring-track: hsl(var(--primary) / 0.2);
+  /* ── Home page (Dark) ── */
+  --home-loading-ring-track: hsl(var(--primary) / 0.18);
   --home-loading-ring-head: hsl(var(--primary));
-  --page-drawer-overlay-bg: hsl(0 0% 0% / 0.6);
+  --page-drawer-overlay-bg: hsl(0 0% 0% / 0.7);
   --home-mobile-overlay-bg: var(--page-drawer-overlay-bg);
   --home-action-ai-bg: hsl(var(--primary) / 0.1);
-  --home-action-ai-border: hsl(var(--primary) / 0.2);
+  --home-action-ai-border: hsl(var(--primary) / 0.22);
   --home-action-ai-text: hsl(var(--primary));
-  --home-action-ai-hover-bg: hsl(var(--primary) / 0.2);
-  --home-action-report-bg: hsl(247 84% 72% / 0.1);
-  --home-action-report-border: hsl(247 84% 72% / 0.2);
+  --home-action-ai-hover-bg: hsl(var(--primary) / 0.18);
+  --home-action-report-bg: hsl(247 84% 72% / 0.08);
+  --home-action-report-border: hsl(247 84% 72% / 0.18);
   --home-action-report-text: hsl(247 84% 72%);
-  --home-action-report-hover-bg: hsl(247 84% 72% / 0.2);
+  --home-action-report-hover-bg: hsl(247 84% 72% / 0.16);
   --home-accent-bg: hsl(var(--primary) / 0.1);
-  --home-accent-bg-hover: hsl(var(--primary) / 0.18);
+  --home-accent-bg-hover: hsl(var(--primary) / 0.16);
   --home-accent-border: hsl(var(--primary) / 0.22);
-  --home-accent-border-hover: hsl(var(--primary) / 0.34);
+  --home-accent-border-hover: hsl(var(--primary) / 0.32);
   --home-accent-text: hsl(var(--primary));
   --home-secondary-accent-text: hsl(247 84% 72%);
-  --home-title-accent: hsl(247 84% 72%);
+  --home-title-accent: hsl(var(--primary));
+  /* A 股红涨绿跌 - 保持不变 */
   --home-price-up: hsl(0 88% 64%);
   --home-price-down: hsl(149 100% 44%);
   --home-strategy-buy: hsl(149 100% 44%);
   --home-strategy-secondary: hsl(var(--primary));
   --home-strategy-stop: hsl(346 100% 66%);
   --home-strategy-take: hsl(38 100% 58%);
-  --home-panel-border: hsl(var(--foreground) / 0.1);
-  --home-panel-border-hover: hsl(var(--primary) / 0.34);
-  --home-panel-border-selected: hsl(var(--primary) / 0.46);
-  --home-panel-gradient-start: hsl(var(--primary) / 0.3);
-  --home-panel-gradient-mid: hsl(247 84% 72% / 0.24);
-  --home-panel-gradient-end: hsl(var(--foreground) / 0.08);
+  --home-panel-border: hsl(240 4% 16%);
+  --home-panel-border-hover: hsl(var(--primary) / 0.3);
+  --home-panel-border-selected: hsl(var(--primary) / 0.42);
+  --home-panel-gradient-start: hsl(var(--primary) / 0.24);
+  --home-panel-gradient-mid: hsl(247 84% 72% / 0.18);
+  --home-panel-gradient-end: hsl(var(--foreground) / 0.06);
   --home-panel-selected-shadow:
-    0 0 0 1px hsl(var(--primary) / 0.14),
-    0 4px 16px hsl(var(--primary) / 0.16);
-  --home-panel-subtle-bg: hsl(var(--foreground) / 0.03);
-  --home-panel-subtle-bg-hover: hsl(var(--foreground) / 0.05);
-  --home-history-item-bg: hsl(var(--foreground) / 0.03);
-  --home-history-item-hover-bg: hsl(var(--foreground) / 0.06);
+    0 0 0 1px hsl(var(--primary) / 0.12),
+    0 4px 16px hsl(var(--primary) / 0.14);
+  --home-panel-subtle-bg: hsl(var(--foreground) / 0.025);
+  --home-panel-subtle-bg-hover: hsl(var(--foreground) / 0.045);
+  --home-history-item-bg: hsl(var(--foreground) / 0.025);
+  --home-history-item-hover-bg: hsl(var(--foreground) / 0.05);
   --home-history-item-selected-bg:
-    linear-gradient(180deg, hsl(247 84% 72% / 0.14), hsl(var(--primary) / 0.1));
-  --home-divider-border: hsl(var(--foreground) / 0.1);
-  --home-surface-button-bg: hsl(var(--foreground) / 0.03);
-  --home-surface-button-bg-hover: hsl(var(--foreground) / 0.06);
-  --home-surface-button-border: hsl(var(--foreground) / 0.1);
-  --home-surface-button-border-hover: hsl(var(--primary) / 0.28);
-  --home-state-icon-muted: hsl(var(--muted-text) / 0.85);
-  --home-prose-border: hsl(var(--foreground) / 0.12);
-  --home-prose-border-strong: hsl(var(--foreground) / 0.18);
-  --home-prose-blockquote-border: hsl(247 84% 72% / 0.3);
-  --home-prose-blockquote-bg: hsl(247 84% 72% / 0.1);
+    linear-gradient(180deg, hsl(var(--primary) / 0.12), hsl(var(--primary) / 0.06));
+  --home-divider-border: hsl(240 4% 16%);
+  --home-surface-button-bg: hsl(var(--foreground) / 0.025);
+  --home-surface-button-bg-hover: hsl(var(--foreground) / 0.05);
+  --home-surface-button-border: hsl(240 4% 16%);
+  --home-surface-button-border-hover: hsl(var(--primary) / 0.26);
+  --home-state-icon-muted: hsl(var(--muted-text) / 0.8);
+  --home-prose-border: hsl(240 4% 18%);
+  --home-prose-border-strong: hsl(240 4% 22%);
+  --home-prose-blockquote-border: hsl(var(--primary) / 0.28);
+  --home-prose-blockquote-bg: hsl(var(--primary) / 0.07);
+  --home-panel-shadow: 0 8px 24px hsl(0 0% 0% / 0.4), 0 2px 6px hsl(0 0% 0% / 0.3);
+  --home-panel-shadow-hover: 0 12px 32px hsl(0 0% 0% / 0.5), 0 4px 10px hsl(0 0% 0% / 0.35);
+  --home-hero-border: hsl(var(--primary) / 0.28);
+  --home-hero-gradient-start: hsl(var(--primary) / 0.2);
+  --home-hero-gradient-mid: hsl(247 84% 72% / 0.12);
+  --home-hero-gradient-end: hsl(var(--foreground) / 0.06);
+  --home-hero-shadow: 0 12px 32px hsl(0 0% 0% / 0.45), 0 4px 10px hsl(0 0% 0% / 0.3);
+  --home-rail-border: hsl(240 4% 16%);
+  --home-rail-bg: linear-gradient(180deg, hsl(var(--card) / 0.94), hsl(var(--background) / 0.92));
+  --home-rail-shadow: 0 8px 24px hsl(0 0% 0% / 0.4), 0 2px 6px hsl(0 0% 0% / 0.28);
+  --home-history-glow: hsl(var(--primary) / 0.12);
 
-  /* Shadows (Dark theme) */
-  --shadow-soft-card: 0 18px 48px hsl(215 25% 10% / 0.4);
-  --shadow-soft-card-strong: 0 24px 56px hsl(215 25% 10% / 0.5);
+  /* ── Shadows (Dark) ── */
+  --shadow-soft-card: 0 8px 24px hsl(0 0% 0% / 0.4), 0 2px 6px hsl(0 0% 0% / 0.3);
+  --shadow-soft-card-strong: 0 16px 40px hsl(0 0% 0% / 0.5), 0 4px 10px hsl(0 0% 0% / 0.4);
+
+  /* ── Settings (Dark) ── */
   --settings-surface: hsl(0 0% 100% / 0.02);
-  --settings-surface-hover: hsl(0 0% 100% / 0.05);
+  --settings-surface-hover: hsl(0 0% 100% / 0.04);
   --settings-surface-strong: hsl(var(--card) / 0.92);
-  --settings-surface-panel: hsl(var(--elevated) / 0.62);
-  --settings-surface-overlay: hsl(var(--background) / 0.22);
-  --settings-surface-overlay-soft: hsl(var(--background) / 0.15);
-  --settings-surface-overlay-muted: hsl(var(--background) / 0.12);
-  --settings-border: hsl(0 0% 100% / 0.1);
-  --settings-border-soft: hsl(0 0% 100% / 0.08);
-  --settings-border-strong: hsl(0 0% 100% / 0.2);
-  --settings-border-overlay: hsl(0 0% 100% / 0.45);
-  --settings-accent-shadow: hsl(190 100% 50% / 0.1);
-  --settings-primary-border: hsl(190 100% 50% / 0.26);
+  --settings-surface-panel: hsl(var(--elevated) / 0.6);
+  --settings-surface-overlay: hsl(var(--background) / 0.2);
+  --settings-surface-overlay-soft: hsl(var(--background) / 0.14);
+  --settings-surface-overlay-muted: hsl(var(--background) / 0.1);
+  --settings-border: hsl(0 0% 100% / 0.08);
+  --settings-border-soft: hsl(0 0% 100% / 0.06);
+  --settings-border-strong: hsl(0 0% 100% / 0.16);
+  --settings-border-overlay: hsl(0 0% 100% / 0.4);
+  --settings-accent-shadow: hsl(var(--primary) / 0.1);
+  --settings-primary-border: hsl(var(--primary) / 0.28);
   --settings-primary-gradient:
-    linear-gradient(135deg, hsl(190 100% 50% / 0.96), hsl(191 100% 40% / 0.96));
-  --settings-primary-text: hsl(205 71% 6%);
-  --settings-primary-shadow: hsl(190 100% 50% / 0.2);
-  --settings-primary-shadow-hover: hsl(190 100% 50% / 0.22);
-  --settings-secondary-border: hsl(0 0% 100% / 0.08);
-  --settings-secondary-bg: hsl(0 0% 100% / 0.03);
-  --settings-secondary-border-hover: hsl(190 100% 50% / 0.3);
-  --settings-secondary-bg-hover: hsl(190 100% 50% / 0.06);
-  --settings-glow-hover: hsl(190 100% 50% / 0.38);
-  --settings-skeleton-strong: hsl(0 0% 100% / 0.1);
-  --settings-skeleton-soft: hsl(0 0% 100% / 0.06);
+    linear-gradient(135deg, hsl(38 92% 50% / 0.96), hsl(38 80% 40% / 0.96));
+  --settings-primary-text: hsl(240 10% 4%);
+  --settings-primary-shadow: hsl(var(--primary) / 0.22);
+  --settings-primary-shadow-hover: hsl(var(--primary) / 0.26);
+  --settings-secondary-border: hsl(0 0% 100% / 0.07);
+  --settings-secondary-bg: hsl(0 0% 100% / 0.025);
+  --settings-secondary-border-hover: hsl(var(--primary) / 0.28);
+  --settings-secondary-bg-hover: hsl(var(--primary) / 0.07);
+  --settings-glow-hover: hsl(var(--primary) / 0.32);
+  --settings-skeleton-strong: hsl(0 0% 100% / 0.08);
+  --settings-skeleton-soft: hsl(0 0% 100% / 0.04);
   --input-surface-bg: var(--bg-card);
-  --input-surface-border: hsl(var(--border) / 0.82);
-  --input-surface-border-hover: rgba(255, 255, 255, 0.18);
-  --input-surface-border-focus: hsl(var(--primary) / 0.45);
-  --input-surface-focus-ring: 0 0 0 4px hsl(var(--primary) / 0.18);
-  --settings-input-rest-border: hsl(var(--border) / 0.58);
+  --input-surface-border: hsl(240 4% 18%);
+  --input-surface-border-hover: hsl(240 4% 24%);
+  --input-surface-border-focus: hsl(var(--primary) / 0.5);
+  --input-surface-focus-ring: 0 0 0 4px hsl(var(--primary) / 0.16);
+  --settings-input-rest-border: hsl(240 4% 16%);
   --gradient-primary:
-    linear-gradient(135deg, rgba(0, 212, 255, 0.96), rgba(0, 168, 204, 0.96));
+    linear-gradient(135deg, hsl(38 92% 50% / 0.96), hsl(38 80% 40% / 0.96));
 
-  /* Chat UI Tokens (Dark) */
-  --chat-avatar-user-bg: hsl(var(--primary) / 0.8);
-  --chat-avatar-user-fg: hsl(var(--foreground) / 0.9);
-  --chat-avatar-user-border: hsl(var(--primary) / 0.15); /* Lower brightness/opacity for dark mode */
-  --chat-avatar-ai-bg: hsl(var(--primary) / 0.8);
-  --chat-avatar-ai-fg: hsl(var(--foreground) / 0.9);
-  --chat-avatar-ai-border: hsl(0 0% 100% / 0.1); /* Low opacity white for dark mode */
-  
+  /* ── Chat UI (Dark) ── */
+  --chat-avatar-user-bg: hsl(var(--primary) / 0.7);
+  --chat-avatar-user-fg: hsl(240 10% 4%);
+  --chat-avatar-user-border: hsl(var(--primary) / 0.14);
+  --chat-avatar-ai-bg: hsl(240 5% 12%);
+  --chat-avatar-ai-fg: hsl(var(--foreground) / 0.88);
+  --chat-avatar-ai-border: hsl(0 0% 100% / 0.08);
   --chat-bubble-user-bg: hsl(var(--primary) / 0.1);
   --chat-bubble-user-border: hsl(var(--primary) / 0.2);
-  --chat-bubble-ai-bg: hsl(var(--card) / 0.72);
-  --chat-bubble-ai-border: hsl(0 0% 100% / 0.12); /* Semi-transparent border for dark mode */
+  --chat-bubble-ai-bg: hsl(var(--card) / 0.8);
+  --chat-bubble-ai-border: hsl(0 0% 100% / 0.08);
 
-  /* Backtest专用 */
-  --backtest-border-dim: hsl(var(--foreground) / 0.06);
-  --backtest-border-subtle: hsl(var(--foreground) / 0.08);
-  --backtest-border-light: hsl(var(--foreground) / 0.12);
-  --backtest-border-cyan-soft: hsl(var(--primary) / 0.40);
-  --backtest-bg-cyan-subtle: hsl(var(--primary) / 0.10);
-  --backtest-shadow-cyan-glow: 0 0 8px hsl(var(--primary) / 0.25);
-  --backtest-shadow-cyan-glow-strong: 0 0 4px hsl(var(--primary) / 0.75);
-  --backtest-spinner-track: hsl(var(--primary) / 0.25);
+  /* ── Backtest (Dark) ── */
+  --backtest-border-dim: hsl(var(--foreground) / 0.05);
+  --backtest-border-subtle: hsl(var(--foreground) / 0.07);
+  --backtest-border-light: hsl(var(--foreground) / 0.10);
+  --backtest-border-cyan-soft: hsl(var(--primary) / 0.35);
+  --backtest-bg-cyan-subtle: hsl(var(--primary) / 0.09);
+  --backtest-shadow-cyan-glow: 0 0 8px hsl(var(--primary) / 0.22);
+  --backtest-shadow-cyan-glow-strong: 0 0 4px hsl(var(--primary) / 0.65);
+  --backtest-spinner-track: hsl(var(--primary) / 0.22);
   --backtest-spinner-head: hsl(var(--primary));
-  --backtest-table-bg: hsl(var(--card) / 0.82);
+  --backtest-table-bg: hsl(var(--card) / 0.85);
 
-  /* Login Page Tokens (Dark - Preserved Cyber Style) */
-  --login-bg-main: hsl(222 84% 5%);
-  --login-bg-card: hsl(222 34% 8%);
-  --login-border-card: hsl(0 0% 100% / 0.05);
-  --login-border-input: hsl(0 0% 100% / 0.1);
-  --login-border-focus: hsl(var(--primary) / 0.5);
+  /* ── Login Page (Dark - Amber Terminal) ── */
+  --login-bg-main: hsl(240 6% 4%);
+  --login-bg-card: hsl(240 5% 7%);
+  --login-border-card: hsl(var(--primary) / 0.18);
+  --login-border-input: hsl(240 4% 20%);
+  --login-border-focus: hsl(var(--primary) / 0.55);
   --login-error-text: hsl(var(--destructive));
   --login-error-bg: hsl(var(--destructive) / 0.1);
   --login-error-border: hsl(var(--destructive) / 0.2);
-  --login-text-primary: hsl(0 0% 100%);
-  --login-text-secondary: hsl(215 20% 65%);
-  --login-text-muted: hsl(215 16% 45%);
+  --login-text-primary: hsl(0 0% 96%);
+  --login-text-secondary: hsl(240 5% 65%);
+  --login-text-muted: hsl(240 4% 45%);
   --login-accent-soft: hsl(var(--primary) / 0.08);
   --login-accent-border: hsl(var(--primary) / 0.28);
-  --login-accent-text: hsl(var(--primary) / 0.92);
-  --login-accent-glow: hsl(var(--primary) / 0.2);
+  --login-accent-text: hsl(var(--primary));
+  --login-accent-glow: hsl(var(--primary) / 0.18);
   --login-brand-start: hsl(var(--primary));
-  --login-brand-end: hsl(214 100% 62%);
-  --login-brand-button-start: hsl(194 96% 45%);
-  --login-brand-button-end: hsl(214 100% 56%);
-  --login-brand-button-start-hover: hsl(194 96% 50%);
-  --login-brand-button-end-hover: hsl(214 100% 62%);
-  --login-button-text: hsl(210 33% 98%);
-  --login-label-text: hsl(0 0% 100%);
-  --login-hint-text: hsl(215 20% 65%);
-  --login-input-icon: hsl(var(--primary) / 0.88);
-  --login-input-toggle-bg: hsl(223 28% 14% / 0.92);
-  --login-input-toggle-border: hsl(0 0% 100% / 0.10);
-  --login-input-toggle-text: hsl(var(--primary) / 0.82);
-  --login-input-toggle-border-hover: hsl(var(--primary) / 0.34);
-  --login-input-toggle-bg-hover: hsl(var(--primary) / 0.12);
-  --login-input-toggle-text-hover: hsl(var(--primary) / 0.92);
-  --login-input-toggle-ring: hsl(var(--primary) / 0.24);
-  --login-input-toggle-active-bg: hsl(var(--primary) / 0.18);
-  --login-input-toggle-active-border: hsl(var(--primary) / 0.46);
-  --login-input-toggle-active-text: hsl(var(--primary) / 0.96);
-  --login-grid-line: hsl(0 0% 50% / 0.04);
+  --login-brand-end: hsl(38 80% 40%);
+  --login-brand-button-start: hsl(38 92% 50%);
+  --login-brand-button-end: hsl(38 80% 40%);
+  --login-brand-button-start-hover: hsl(38 95% 55%);
+  --login-brand-button-end-hover: hsl(38 84% 45%);
+  --login-button-text: hsl(240 10% 4%);
+  --login-label-text: hsl(0 0% 96%);
+  --login-hint-text: hsl(240 5% 55%);
+  --login-input-icon: hsl(var(--primary) / 0.8);
+  --login-input-toggle-bg: hsl(240 5% 10%);
+  --login-input-toggle-border: hsl(240 4% 20%);
+  --login-input-toggle-text: hsl(var(--primary) / 0.8);
+  --login-input-toggle-border-hover: hsl(var(--primary) / 0.3);
+  --login-input-toggle-bg-hover: hsl(var(--primary) / 0.1);
+  --login-input-toggle-text-hover: hsl(var(--primary));
+  --login-input-toggle-ring: hsl(var(--primary) / 0.2);
+  --login-input-toggle-active-bg: hsl(var(--primary) / 0.15);
+  --login-input-toggle-active-border: hsl(var(--primary) / 0.4);
+  --login-input-toggle-active-text: hsl(var(--primary));
+  --login-grid-line: hsl(0 0% 100% / 0.03);
   --login-grid-mask: radial-gradient(ellipse 80% 50% at 50% 50%, #000 70%, transparent 100%);
+
+  /* ── 投研专属 token (Dark) ── */
+  --accent-ai: hsl(38 92% 50%);
+  --accent-ai-soft: hsl(38 92% 50% / 0.1);
+  --accent-ai-border: hsl(38 92% 50% / 0.25);
+  --accent-ai-glow: hsl(38 92% 50% / 0.16);
+  --market-up: hsl(0 88% 64%);
+  --market-down: hsl(149 100% 44%);
+  --market-flat: hsl(240 5% 55%);
+  --metric-card-bg: hsl(240 5% 7%);
+  --metric-card-border: hsl(240 4% 16%);
+  --metric-card-radius: 16px;
+  --table-row-hover: hsl(0 0% 100% / 0.04);
+  --table-row-selected: hsl(38 92% 50% / 0.06);
+  --table-border: hsl(240 4% 18%);
+  --status-online: hsl(142 70% 45%);
+  --status-warning: hsl(38 92% 50%);
+  --status-error: hsl(0 75% 55%);
+  --status-offline: hsl(240 5% 40%);
 }
 
 /* =========================================
@@ -1700,9 +1758,9 @@ textarea {
 
 .home-rail-card {
   --terminal-card-border: var(--home-rail-border);
-  --terminal-card-gradient-start: hsl(193 100% 43% / 0.08);
-  --terminal-card-gradient-mid: hsl(247 84% 66% / 0.12);
-  --terminal-card-gradient-end: hsl(218 22% 80% / 0.08);
+  --terminal-card-gradient-start: hsl(38 92% 45% / 0.08);
+  --terminal-card-gradient-mid: hsl(247 84% 66% / 0.1);
+  --terminal-card-gradient-end: hsl(240 4% 80% / 0.06);
   --terminal-card-shadow: var(--home-rail-shadow);
   background: var(--home-rail-bg);
 }
@@ -1964,20 +2022,20 @@ textarea {
 }
 
 .btn-primary {
-  border: 1px solid rgba(0, 212, 255, 0.26);
+  border: 1px solid hsl(38 92% 45% / 0.3);
   background: linear-gradient(
     135deg,
-    rgba(0, 212, 255, 0.96),
-    rgba(0, 168, 204, 0.96)
+    hsl(38 92% 50% / 0.96),
+    hsl(38 80% 42% / 0.96)
   );
-  color: #041118;
-  box-shadow: 0 12px 28px rgba(0, 212, 255, 0.2);
+  color: hsl(240 10% 4%);
+  box-shadow: 0 8px 20px hsl(38 92% 50% / 0.22);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  filter: brightness(1.04);
-  box-shadow: 0 18px 34px rgba(0, 212, 255, 0.22);
+  filter: brightness(1.05);
+  box-shadow: 0 14px 28px hsl(38 92% 50% / 0.28);
 }
 
 .btn-secondary {
@@ -2023,7 +2081,7 @@ textarea {
 :root:not(.dark) .portfolio-page .btn-primary:hover:not(:disabled) {
   box-shadow:
     inset 0 1px 0 hsl(0 0% 100% / 0.18),
-    0 18px 34px rgba(0, 212, 255, 0.22);
+    0 18px 34px hsl(38 92% 45% / 0.22);
 }
 
 .bg-hover {
@@ -2108,10 +2166,10 @@ textarea {
 
 .dark .settings-nav-item-active {
   border-color: hsl(var(--primary) / 0.34);
-  background: hsl(var(--primary) / 0.12);
+  background: hsl(var(--primary) / 0.1);
   box-shadow:
     2px 3px 0 hsl(var(--primary) / 0.06),
-    8px 12px 22px hsl(190 100% 50% / 0.07);
+    8px 12px 22px hsl(38 92% 50% / 0.08);
 }
 
 .settings-button-primary {

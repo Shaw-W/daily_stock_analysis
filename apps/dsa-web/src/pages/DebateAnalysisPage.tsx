@@ -22,7 +22,7 @@ const DebateAnalysisPage: React.FC = () => {
   const pollTimer = useRef<number | null>(null);
 
   useEffect(() => {
-    document.title = '多智能体辩论 - DSA';
+    document.title = '多智辩论分析 - AI 投研工作台';
     return () => {
       if (pollTimer.current !== null) window.clearInterval(pollTimer.current);
     };

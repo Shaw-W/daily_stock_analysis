@@ -89,7 +89,7 @@ const LoginPage: React.FC = () => {
           x: useTransform(smoothX, [-0.5, 0.5], [60, -60]),
           y: useTransform(smoothY, [-0.5, 0.5], [60, -60]),
         }}
-        className="absolute right-[20%] bottom-[10%] -z-10 h-[400px] w-[400px] translate-x-1/2 translate-y-1/2 rounded-full bg-emerald-600/10 blur-[120px]"
+        className="absolute right-[20%] bottom-[10%] -z-10 h-[400px] w-[400px] translate-x-1/2 translate-y-1/2 rounded-full bg-amber-500/5 blur-[120px]"
       />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
@@ -115,12 +115,12 @@ const LoginPage: React.FC = () => {
           </motion.div>
 
           <div className="mt-8 flex flex-col items-center">
-            <h2 className="text-4xl font-extrabold tracking-tighter text-[var(--login-text-primary)] sm:text-6xl">
-              <span className="bg-gradient-to-r from-[var(--login-text-primary)] via-[var(--login-text-primary)] to-[var(--login-text-secondary)] bg-clip-text text-transparent">每日</span>
-              <span className="bg-gradient-to-r from-[var(--login-brand-start)] to-[var(--login-brand-end)] bg-clip-text text-transparent drop-shadow-[0_0_20px_var(--login-accent-glow)]">选股</span>
+            <h2 className="text-4xl font-extrabold tracking-tighter text-[var(--login-text-primary)] sm:text-5xl">
+              <span className="bg-gradient-to-r from-[var(--login-text-primary)] via-[var(--login-text-primary)] to-[var(--login-text-secondary)] bg-clip-text text-transparent">AI 股票</span>
+              <span className="bg-gradient-to-r from-[var(--login-brand-start)] to-[var(--login-brand-end)] bg-clip-text text-transparent drop-shadow-[0_0_20px_var(--login-accent-glow)]">投研</span>
             </h2>
             <h3 className="mt-1 text-xl font-bold uppercase tracking-[0.5em] text-[var(--login-text-muted)]">
-              分析引擎
+              工作台
             </h3>
           </div>
 
@@ -142,18 +142,18 @@ const LoginPage: React.FC = () => {
           className="relative group z-20 pointer-events-auto"
         >
           {/* Card Border Glow */}
-          <div className="pointer-events-none absolute -inset-0.5 rounded-3xl bg-gradient-to-b from-[var(--login-accent-glow)] to-[hsl(214_100%_56%_/_0.18)] opacity-50 blur-sm transition duration-1000 group-hover:opacity-100 group-hover:duration-200" />
+          <div className="pointer-events-none absolute -inset-0.5 rounded-3xl bg-gradient-to-b from-[var(--login-accent-glow)] to-[hsl(38_60%_30%_/_0.12)] opacity-50 blur-sm transition duration-1000 group-hover:opacity-100 group-hover:duration-200" />
 
           <div className="pointer-events-auto relative flex flex-col overflow-hidden rounded-3xl border border-[var(--login-border-card)] bg-[var(--login-bg-card)]/80 p-8 shadow-2xl backdrop-blur-xl">
             {/* Inner corner glow */}
             <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-[var(--login-accent-soft)] blur-[50px]" />
-            <div className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-blue-600/10 blur-[50px]" />
+            <div className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-amber-900/10 blur-[50px]" />
 
             <div className="mb-8">
               <h1 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-[var(--login-text-primary)]">
                 {isFirstTime ? (
                   <>
-                    <ShieldCheck className="h-6 w-6 text-emerald-400" />
+                    <ShieldCheck className="h-6 w-6 text-[var(--accent-ai)]" />
                     <span>设置初始密码</span>
                   </>
                 ) : (
@@ -243,14 +243,19 @@ const LoginPage: React.FC = () => {
         </motion.div>
 
         {/* Footer info */}
-        <motion.p 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="mt-8 text-center font-mono text-xs uppercase tracking-wider text-[var(--login-text-muted)]"
+          className="mt-8 flex flex-col items-center gap-1"
         >
-          安全连接已通过 DSA-V3-TLS 建立
-        </motion.p>
+          <p className="font-mono text-xs uppercase tracking-wider text-[var(--login-text-muted)]">
+            AI 分析结果仅供参考，不构成投资建议
+          </p>
+          <p className="font-mono text-[10px] tracking-wide text-[var(--login-text-muted)]/50">
+            Daily Stock Analysis · V3
+          </p>
+        </motion.div>
       </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
