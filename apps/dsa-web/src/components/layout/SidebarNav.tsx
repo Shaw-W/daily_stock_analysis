@@ -70,7 +70,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
         {!collapsed ? (
           <div className="min-w-0 overflow-hidden">
             <p className="truncate text-[13px] font-semibold leading-tight text-foreground">
-              AI 投研工作台
+              股票智能分析系统
             </p>
             <p className="truncate text-[10px] text-muted-foreground">
               Daily Stock Analysis
@@ -161,12 +161,12 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
             aria-label="退出"
             onClick={() => setShowLogoutConfirm(true)}
             className={cn(
-              'flex h-10 w-full cursor-pointer select-none items-center gap-3 rounded-lg px-3 text-[13px]',
-              'text-muted-foreground transition-all hover:bg-destructive/10 hover:text-destructive',
-              collapsed ? 'justify-center px-2' : ''
+              'flex h-7 w-full cursor-pointer select-none items-center gap-1.5 rounded-md border border-border/60 bg-card/60 px-2.5 text-[12px]',
+              'text-muted-foreground transition-all hover:bg-destructive/10 hover:text-destructive hover:border-destructive/40',
+              collapsed ? 'justify-center px-0' : ''
             )}
           >
-            <LogOut className="h-4 w-4 shrink-0" />
+            <LogOut className="h-3.5 w-3.5 shrink-0" />
             {!collapsed ? <span>退出登录</span> : null}
           </button>
         ) : null}

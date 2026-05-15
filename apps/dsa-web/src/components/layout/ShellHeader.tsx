@@ -1,7 +1,7 @@
 import type React from 'react';
-import { Filter, Menu, PanelLeftClose, PanelLeftOpen, Settings } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ThemeToggle } from '../theme/ThemeToggle';
+import { useEffect, useState } from 'react';
+import { Menu, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { cn } from '../../utils/cn';
 
 type ShellHeaderProps = {
@@ -20,14 +20,43 @@ const TITLES: Record<string, { title: string; description: string }> = {
   '/settings':  { title: '系统配置',     description: '模型 · 数据源 · 推送渠道 · 认证' },
 };
 
+type AShareStatus = {
+  label: '休市' | '盘中休市' | '交易中';
+  active: boolean;
+};
+
+function getAShareStatus(now: Date): AShareStatus {
+  const day = now.getDay(); // 0=Sun, 6=Sat
+  const time = now.getHours() * 100 + now.getMinutes();
+  if (day === 0 || day === 6) return { label: '休市', active: false };
+  if (time >= 930 && time < 1130) return { label: '交易中', active: true };
+  if (time >= 1130 && time < 1300) return { label: '盘中休市', active: false };
+  if (time >= 1300 && time < 1500) return { label: '交易中', active: true };
+  return { label: '休市', active: false };
+}
+
+function pad2(n: number) {
+  return n.toString().padStart(2, '0');
+}
+
 export const ShellHeader: React.FC<ShellHeaderProps> = ({
   collapsed,
   onToggleSidebar,
   onOpenMobileNav,
 }) => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const current = TITLES[location.pathname] ?? { title: 'AI 投研工作台', description: '' };
+  const current = TITLES[location.pathname] ?? { title: '股票智能分析系统', description: '' };
+
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(new Date()), 1000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const status = getAShareStatus(now);
+  const timeStr = `${pad2(now.getHours())}:${pad2(now.getMinutes())}:${pad2(now.getSeconds())}`;
+  const dateStr = `${now.getMonth() + 1}/${now.getDate()}`;
 
   return (
     <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-3 border-b border-border/60 bg-background/95 px-4 backdrop-blur-sm">
@@ -73,35 +102,33 @@ export const ShellHeader: React.FC<ShellHeaderProps> = ({
         </p>
       </div>
 
-      {/* Right: New-API style action buttons */}
-      <div className="flex shrink-0 items-center gap-1.5">
-        <button
-          type="button"
-          onClick={() => navigate('/settings')}
+      {/* Right: Clock + A-share status */}
+      <div className="flex shrink-0 items-center gap-2">
+        {/* Clock */}
+        <div className="hidden sm:flex flex-col items-end leading-none">
+          <span className="font-mono text-[13px] tabular-nums text-foreground">{timeStr}</span>
+          <span className="text-[10px] text-muted-foreground">{dateStr}</span>
+        </div>
+
+        {/* A-share status badge */}
+        <div
           className={cn(
-            'flex h-7 items-center gap-1.5 rounded-md border border-border/60 bg-card/60',
-            'px-2.5 text-[12px] text-muted-foreground',
-            'transition-colors hover:bg-hover hover:text-foreground'
+            'flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium',
+            status.active
+              ? 'border-[var(--data-danger,#ef4444)]/30 bg-[var(--data-danger,#ef4444)]/10 text-[var(--data-danger,#ef4444)]'
+              : 'border-[var(--data-positive)]/30 bg-[var(--data-positive)]/10 text-[var(--data-positive)]'
           )}
         >
-          <Settings className="h-3 w-3" />
-          <span className="hidden sm:inline">偏好设置</span>
-        </button>
-
-        <button
-          type="button"
-          className={cn(
-            'flex h-7 items-center gap-1.5 rounded-md border border-border/60 bg-card/60',
-            'px-2.5 text-[12px] text-muted-foreground',
-            'transition-colors hover:bg-hover hover:text-foreground'
+          {status.active ? (
+            <span className="relative flex h-1.5 w-1.5 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--data-danger,#ef4444)] opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--data-danger,#ef4444)]" />
+            </span>
+          ) : (
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--data-positive)]" />
           )}
-          aria-label="筛选"
-        >
-          <Filter className="h-3 w-3" />
-          <span className="hidden sm:inline">筛选</span>
-        </button>
-
-        <ThemeToggle />
+          <span>{status.label}</span>
+        </div>
       </div>
     </header>
   );

@@ -71,17 +71,17 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         data-state={open ? 'open' : 'closed'}
         className={cn(
           isNavVariant
-            ? 'group relative flex h-12 w-full select-none items-center gap-3 rounded-[1.35rem] border border-transparent px-4 text-sm text-secondary-text transition-all duration-300 hover:bg-hover hover:text-foreground data-[state=open]:border-subtle data-[state=open]:bg-subtle data-[state=open]:text-foreground'
+            ? 'flex h-7 w-full select-none items-center gap-1.5 rounded-md border border-border/60 bg-card/60 px-2.5 text-[12px] text-muted-foreground transition-colors hover:bg-hover hover:text-foreground'
             : 'inline-flex h-10 items-center gap-2 rounded-xl border border-border/70 bg-card/80 px-3 text-sm text-secondary-text shadow-soft-card transition-colors hover:bg-hover hover:text-foreground',
-          isNavVariant && collapsed ? 'justify-center px-2' : ''
+          isNavVariant && collapsed ? 'justify-center px-0' : ''
         )}
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="切换主题"
       >
-        <TriggerIcon className={cn('shrink-0', isNavVariant ? 'h-5 w-5' : 'h-4 w-4')} />
+        <TriggerIcon className={cn('shrink-0', isNavVariant ? 'h-3.5 w-3.5' : 'h-4 w-4')} />
         {isNavVariant ? (
-          collapsed ? null : <span className="truncate text-[1.02rem] font-medium">主题</span>
+          collapsed ? null : <span className="truncate">主题</span>
         ) : (
           <span className="hidden sm:inline">{resolveThemeLabel(activeTheme)}</span>
         )}

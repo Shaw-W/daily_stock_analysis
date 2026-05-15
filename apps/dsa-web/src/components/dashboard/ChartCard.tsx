@@ -40,19 +40,19 @@ export const ChartCard: React.FC<ChartCardProps> = ({
           )}
         </div>
       </div>
-      {/* Tab switchers */}
+      {/* Tab switchers — segmented control */}
       {tabs && tabs.length > 0 && (
-        <div className="flex shrink-0 items-center gap-1">
+        <div className="flex shrink-0 items-center gap-0.5 rounded-md border border-border/60 bg-card/40 p-0.5">
           {tabs.map((tab) => (
             <button
               key={tab.key}
               type="button"
               onClick={() => onTabChange?.(tab.key)}
               className={cn(
-                'rounded-md px-3 py-1.5 text-[12px] transition-colors',
+                'rounded px-2.5 py-1 text-[11px] transition-colors',
                 activeTab === tab.key
-                  ? 'bg-foreground text-background'
-                  : 'text-muted-foreground hover:bg-hover hover:text-foreground'
+                  ? 'bg-card text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
             >
               {tab.label}

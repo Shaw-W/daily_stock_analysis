@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- 新条目格式：- [类型] 描述（类型取值：新功能/改进/修复/文档/测试/chore）-->
 <!-- 每条独立一行追加到本段末尾，无需分类标题，合并时冲突最小 -->
+- [改进] WebUI 侧边栏品牌名改为"股票智能分析系统"，底部主题与退出按钮统一为 h-7 小按钮样式。
+- [改进] WebUI 顶栏移除偏好设置/筛选/跟随系统按钮，替换为实时时钟（HH:MM:SS）与 A 股交易状态徽章（交易中红色脉冲，盘中休市/休市绿色）。
+- [改进] 数据看板调用趋势/消耗分布/调用排行 Tab 改为分段控件样式，减少视觉强度。
+- [改进] 全局 Card 圆角由 rounded-2xl 收敛为 rounded-lg，Settings 页卡片与回测输入框同步对齐，整体风格更紧凑。
 - [chore] Docker 发布工作流收敛为仅推送 GHCR，禁用手动 Docker 发布与 PR Review 自动审查入口。
 - [新功能] 通知网关新增 ntfy 一等渠道，支持通过 `NTFY_URL` / `NTFY_TOKEN` 推送并接入 Web 测试、路由、Actions 与诊断。
 - [新功能] 通知网关新增 Gotify 一等渠道，支持通过 `GOTIFY_URL` / `GOTIFY_TOKEN` 推送 Markdown 文本并接入 Web 测试、路由、Actions 与诊断。
